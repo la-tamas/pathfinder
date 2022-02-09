@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import Navbar from './components/navbar/navbar-wrapper';
+import Grid from './components/grid/gird-wrapper';
+import useDimensions from './hooks/useDimensions';
+import { createGrid } from './features/grid/gridSlice';
 
 function App() {
+  const dispatch = useDispatch();
+  const { width, height } = useDimensions();
+  const navbarRef = useRef();
+
+  useEffect(() => {
+    const difference = navbarRef.current?.offsetHeight;
+    if (height > 0) {
+      dispatch(createGrid({
+        rows: Math.floor((height - (difference === undefined ? 0 : difference)) / 25),
+        cols: Math.floor(width / 25)
+      }));
+    }
+  }, [width, height, dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Navbar
+        dimensions={{
+          width: width,
+          height: height
+        }} 
+        ref={navbarRef} />
+      <Grid />
+    </Fragment>
   );
 }
 

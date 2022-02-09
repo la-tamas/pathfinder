@@ -1,3 +1,74 @@
+.scrollbar-hidden {
+  -ms-overflow-style: none !important;  
+  scrollbar-width: none !important;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none !important;
+}
+
+.bg-grey-400 {
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation: bounce-up 1s 0s cubic-bezier(0.175, 0.885, 0.32, 1);
+  -webkit-animation: bounce-up 1s 0s cubic-bezier(0.175, 0.885, 0.32, 1);
+}
+
+.bg-teal-400, .bg-amber-600 {
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation: bounce-down .7s .01s cubic-bezier(0.175, 0.885, 0.32, 1);
+  -webkit-animation: bounce-down .7s .01s cubic-bezier(0.175, 0.885, 0.32, 1);
+}
+
+@keyframes bounce-up {
+  0% {
+    transform: scale(1.2);
+  }
+  15%{
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes bounce-up {
+  0% {
+    transform: scale(1.2);
+  }
+  15%{
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-down {
+  0% {
+    transform: scale(.9);
+  }
+  15%{
+    transform: scale(.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes bounce-down {
+  0% {
+    transform: scale(.9);
+  }
+  15%{
+    transform: scale(.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,3 +82,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
