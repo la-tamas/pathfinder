@@ -58,28 +58,21 @@ export const AStar = {
                 return ret.reverse();
             }
 
-            // Normal case -- move currentNode from open to closed, process each of its neighbors.
             currentNode.closed = true;
 
-            // Find all neighbors for the current node. Optionally find diagonal neighbors as well (false by default).
             var neighbors = AStar.neighbors(grid, currentNode);
 
             for(var i = 0, il = neighbors.length; i < il; i++) {
                 var neighbor = neighbors[i];
 
                 if(neighbor.closed || isWall(neighbor)) {
-                    // Not a valid node to process, skip to next neighbor.
                     continue;
                 }
 
-                // The g score is the shortest distance from start to current node.
-                // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
                 var gScore = currentNode.g + neighbor.cost;
                 var beenVisited = neighbor.visited;
 
                 if(!beenVisited || gScore < neighbor.g) {
-
-                    // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
                     neighbor.visited = true;
                     neighbor.parent = currentNode;
                     neighbor.h = neighbor.h || heuristic(neighbor.pos, end.pos);
@@ -87,11 +80,9 @@ export const AStar = {
                     neighbor.f = neighbor.g + neighbor.h;
 
                     if (!beenVisited) {
-                        // Pushing to heap will put it in proper place based on the 'f' value.
                         openHeap.push(neighbor);
                     }
                     else {
-                        // Already seen the node, but since it has been rescored we need to reorder it in the heap
                         openHeap.push(neighbor);
                     }
                 }
@@ -99,7 +90,6 @@ export const AStar = {
             }
         }
 
-        // No result was found - empty array signifies failure to find path.
         return [];
     },
     searchWithPromise: (grid, start, end, timeout) => new Promise(async (resolve) => {
@@ -112,10 +102,8 @@ export const AStar = {
 
         while(openHeap.size() > 0) {
 
-            // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
             var currentNode = openHeap.pop();
 
-            // End case -- result has been found, return the traced path.
             if(currentNode.pos.x === end.pos.x && currentNode.pos.y === end.pos.y) {
                 var curr = currentNode;
                 var ret = [];
@@ -126,28 +114,21 @@ export const AStar = {
                 resolve(ret.reverse());
             }
 
-            // Normal case -- move currentNode from open to closed, process each of its neighbors.
             currentNode.closed = true;
 
-            // Find all neighbors for the current node. Optionally find diagonal neighbors as well (false by default).
             var neighbors = AStar.neighbors(grid, currentNode);
 
             for(var i = 0, il = neighbors.length; i < il; i++) {
                 var neighbor = neighbors[i];
 
                 if(neighbor.closed || isWall(neighbor)) {
-                    // Not a valid node to process, skip to next neighbor.
                     continue;
                 }
 
-                // The g score is the shortest distance from start to current node.
-                // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
                 var gScore = currentNode.g + neighbor.cost;
                 var beenVisited = neighbor.visited;
 
                 if(!beenVisited || gScore < neighbor.g) {
-
-                    // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
                     neighbor.visited = true;
                     neighbor.parent = currentNode;
                     neighbor.h = neighbor.h || heuristic(neighbor.pos, end.pos);;
@@ -155,12 +136,10 @@ export const AStar = {
                     neighbor.f = neighbor.g + neighbor.h;
 
                     if (!beenVisited) {
-                        // Pushing to heap will put it in proper place based on the 'f' value.
                         openHeap.push(neighbor);
                         openHeap.heapify();
                     }
                     else {
-                        // Already seen the node, but since it has been rescored we need to reorder it in the heap
                         openHeap.push(neighbor);
                         openHeap.heapify();
                     }
@@ -170,7 +149,6 @@ export const AStar = {
             await timeout();
         }
 
-        // No result was found - empty array signifies failure to find path.
         resolve([]);
     }),
     manhattan: (pos0, pos1) => {
