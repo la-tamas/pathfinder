@@ -12,13 +12,14 @@ const GridWrapper = (props) => {
         let [x, y] = String(result.destination.droppableId).split('-');
         if (String(result.draggableId).indexOf('start') !== -1) {
             dispatch(setStartPoint({
-                x: x,
-                y: y
+                x: Number(x),
+                y: Number(y)
             }));
         } else {
+            console.log('ep', x, y);
             dispatch(setEndPoint({
-                x: x,
-                y: y
+                x: Number(x),
+                y: Number(y)
             }));
         }
     };

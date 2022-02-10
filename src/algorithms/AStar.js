@@ -45,8 +45,6 @@ export const AStar = {
         openHeap.push(start);
 
         while(openHeap.size() > 0) {
-            openHeap.heapify();
-
             var currentNode = openHeap.pop();
 
             if(currentNode.pos.x === end.pos.x && currentNode.pos.y === end.pos.y) {

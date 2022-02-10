@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { algorithms } from '../../algorithms';
 
 const timeout = () => new Promise((resolve) => {
@@ -31,9 +31,10 @@ export const gridSlice = createSlice({
                 y: 0,
             },
             cost: 2,
-            f: 0,
+            f: 1,
             g: 0,
-            h: 0,
+            h: 4,
+            visited: false,
         },
         ep: {
             pos: {
@@ -44,6 +45,7 @@ export const gridSlice = createSlice({
             f: 0,
             g: 0,
             h: 0,
+            visited: false,
         },
         costs: [],
         solution: [],
@@ -109,9 +111,15 @@ export const gridSlice = createSlice({
         },
         resolveWithAlgo: (state, action) => {
             const algorithm = action.payload;
-            let costs = state.costs;
-            let sp = state.sp;
-            let ep = state.ep;
+            let costs = [ ...state.costs ];
+            let sp = Object.assign({}, {
+                pos: { ...current(state.sp.pos) },
+                ...current(state.sp),
+            });
+            let ep = Object.assign({}, { 
+                pos: { ...current(state.ep.pos) },
+                ...current(state.ep),
+            });
             try {
                 const result = algorithms[algorithm].search(costs, sp, ep)
                 state.solution = result;
