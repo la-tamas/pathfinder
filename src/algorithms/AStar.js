@@ -14,8 +14,8 @@ export const AStar = {
                         y: y,
                     },
                     f: 0,
-                    g: 0,
-                    h: 0,
+                    g: undefined,
+                    h: undefined,
                     cost: grid[x][y].cost,
                     visited: false,
                     closed: false,
@@ -33,7 +33,8 @@ export const AStar = {
         }
     },
     heap: function() {
-        return new Heap((node1, node2) => node2.f - node1.f);
+        return new Heap((node1, node2) => node1.f - node2.f);
+        //return [];
     },
     search: (grid, start, end) => {
         AStar._init(grid)
@@ -83,10 +84,9 @@ export const AStar = {
                         openHeap.push(neighbor);
                     }
                     else {
-                        openHeap.push(neighbor);
+                        openHeap.updateItem(neighbor)
                     }
                 }
-                openHeap.heapify();
             }
         }
 
@@ -156,7 +156,7 @@ export const AStar = {
         var d2 = Math.abs (pos1.y - pos0.y);
         return d1 + d2;
     },
-    neighbors: function(grid, node, diagonals = false) {
+    neighbors: function(grid, node) {
         var ret = [];
         var x = node.pos.x;
         var y = node.pos.y;
