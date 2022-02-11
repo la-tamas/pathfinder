@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import StartPoint from '../../points/start-point';
@@ -28,17 +28,17 @@ const GridItemBase = (props) => {
         return filter?.length === 1;
     }, [position, solution])
 
-    const handleClick = (event) => {
+    const handleClick = useCallback((event) => {
         if (value === 2 || value === -1) return;
         dispatch(setGridWall(position));
-    }
+    }, [position, dispatch, value]);
 
-    const handleMouseOver = (event) => {
+    const handleMouseOver = useCallback((event) => {
         event.preventDefault();
         if (value === 2 || value === -1) return;
         if (!event.shiftKey) return;
         dispatch(setGridConstantWall(position));
-    }
+    }, [position, dispatch, value])
 
     const classes = useMemo(() => {
         if (value === 255) return 'bg-grey-400';
@@ -49,10 +49,12 @@ const GridItemBase = (props) => {
     return (
         <td {...provided.droppableProps} 
             ref={innerRef} 
-            className={`w-[25px] h-[25px] border border-grey-400 ${classes}`}
-            onMouseOverCapture={handleMouseOver}
-            onClickCapture={handleClick}>
-            <GridItemContent classes={classes} value={value}>
+            className={`w-[25px] h-[25px] border border-grey-400 ${classes}`}>
+            <GridItemContent 
+                onMouseOver={handleMouseOver}
+                onClick={handleClick}
+                classes={classes} 
+                value={value}>
                 {value === 2 && <StartPoint index={index} />}
                 {value === -1 && <EndPoint index={index} />}
             </GridItemContent>
