@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Navbar from './components/navbar/navbar-wrapper';
 import Grid from './components/grid/gird-wrapper';
 import useDimensions from './hooks/useDimensions';
+import ModalWrapper from './components/modal/modal.wrapper';
 import { createGrid } from './features/grid/gridSlice';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <Fragment>
+      <ModalWrapper />
       <Navbar
         onReset={fillScreen}
         ref={navbarRef} />

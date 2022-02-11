@@ -2,8 +2,10 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { GrPowerReset } from 'react-icons/gr';
+import { BiHelpCircle } from 'react-icons/bi';
 import { resolveWithAlgo } from '../../features/grid/gridSlice';
 import { algorithmNames } from '../../algorithms';
+import { toggleModal } from '../../features/modal/modalSlice';
 
 const algos = Object.entries(algorithmNames);
 
@@ -17,6 +19,10 @@ const NavbarWrapper = forwardRef((props, ref) => {
 
     const handleReset = () => {
         onReset();
+    }
+
+    const handleHelp = () => {
+        dispatch(toggleModal());
     }
 
     return (
@@ -38,6 +44,11 @@ const NavbarWrapper = forwardRef((props, ref) => {
                         ))
                     }
                 </div>
+                <button 
+                    className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded"
+                    onClick={handleHelp}>
+                    <BiHelpCircle size={22} color="white" style={{ color: 'white' }} />
+                </button>
             </div>
         </div>
     )

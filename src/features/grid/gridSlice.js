@@ -22,7 +22,7 @@ export const resolveWithAlgoAsync = createAsyncThunk(
 );
 
 export const gridSlice = createSlice({
-    name: 'gird',
+    name: 'grid',
     initialState: {
         grid: [],
         sp: {
