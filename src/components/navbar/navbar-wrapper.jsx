@@ -26,24 +26,22 @@ const NavbarWrapper = forwardRef((props, ref) => {
     }
 
     return (
-        <div ref={ref} className="min-w-full h-14 bg-teal-800">
-            <div className="flex py-2 px-3">
+        <div ref={ref} className="min-w-full h-14 min-h-14 bg-teal-800">
+            <div className="flex flex-row py-2 px-3 max-h-full overflow-y-auto">
                 <button 
                     className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded"
                     onClick={handleReset}>
                     <GrPowerReset size={22} color="white" style={{ color: 'white' }} />
                 </button>
-                <div className="">
-                    {
-                        algos.map((item, index) => (
-                            <button key={`algo-${index}`}
-                                className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded" 
-                                onClick={(e) => handleClick(e, item[0])}>
-                                {item[1]}
-                            </button>
-                        ))
-                    }
-                </div>
+                {
+                    algos.map((item, index) => (
+                        <button key={`algo-${index}`}
+                            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded overflow-y-hidden" 
+                            onClick={(e) => handleClick(e, item[0])}>
+                            {item[1]}
+                        </button>
+                    ))
+                }
                 <button 
                     className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded"
                     onClick={handleHelp}>

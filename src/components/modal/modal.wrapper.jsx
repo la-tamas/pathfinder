@@ -33,7 +33,7 @@ const ModalWrapper = () => {
     return (
         <div aria-hidden={isVisible ? 'false' : 'true'} className={`${isVisible ? '' : 'hidden'} overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center h-modal md:h-full md:inset-0`}>
             <div className="relative px-4 w-full max-w-2xl h-full md:h-auto">
-                <div className="relativ translate-y-1/4 translate-x-2/4 bg-white rounded-lg shadow dark:bg-teal-700 md:translate-x-0">
+                <div className="relative translate-y-1/4 lg:translate-x-2/4 bg-white rounded-lg shadow dark:bg-teal-700 translate-x-0">
                     <div className="flex justify-between items-start p-5 rounded-t border-b dark:border-teal-600">
                         <h3 className="text-xl font-semibold text-grey-900 lg:text-2xl dark:text-white">
                             Informations
