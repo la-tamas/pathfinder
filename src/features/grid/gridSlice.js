@@ -111,7 +111,7 @@ export const gridSlice = createSlice({
         },
         resolveWithAlgo: (state, action) => {
             const algorithm = action.payload;
-            let costs = [ ...state.costs ];
+            let costs = current(state.costs).map((row) => Array.from(row));
             let sp = Object.assign({}, {
                 pos: { ...current(state.sp.pos) },
                 ...current(state.sp),
@@ -121,9 +121,9 @@ export const gridSlice = createSlice({
                 ...current(state.ep),
             });
             try {
-                const result = algorithms[algorithm].search(costs, sp, ep)
+                const { result, grid } = algorithms[algorithm].search(costs, sp, ep)
                 state.solution = result;
-                console.log(result);
+                state.costs = grid;
             } catch (error) {
                 console.error(error);
             }

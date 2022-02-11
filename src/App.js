@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { Fragment, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Navbar from './components/navbar/navbar-wrapper';
 import Grid from './components/grid/gird-wrapper';
@@ -10,9 +10,9 @@ function App() {
   const { width, height } = useDimensions();
   const navbarRef = useRef();
 
-  useEffect(() => {
+  const fillScreen = useCallback(() => {
     const difference = navbarRef.current?.offsetHeight;
-    if (height > 0) {
+    if (height > difference) {
       dispatch(createGrid({
         rows: Math.floor((height - (difference === undefined ? 0 : difference)) / 25),
         cols: Math.floor(width / 25)
@@ -20,13 +20,14 @@ function App() {
     }
   }, [width, height, dispatch]);
 
+  useEffect(() => {
+    fillScreen();
+  }, [fillScreen]);
+
   return (
     <Fragment>
       <Navbar
-        dimensions={{
-          width: width,
-          height: height
-        }} 
+        onReset={fillScreen}
         ref={navbarRef} />
       <Grid />
     </Fragment>

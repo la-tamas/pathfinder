@@ -25,35 +25,33 @@ const GridWrapper = (props) => {
     };
 
     return (
-        <div className="flex justify-center align-center py-1">
-            <div className="border-collapse">
-                <table className="mx-auto">
-                    <DragDropContext onDragEnd={handleDrop}>
-                        <tbody>
-                        {
-                            grid.map((row, r) => (
-                                <tr key={`grid-row-${r}`}>
-                                {
-                                    row.map((col, c) => (
-                                        <Droppable key={`drop-${r}${c}`} droppableId={`${r}-${c}`} index={Number(`${r}${c}`)}>
-                                            {(provided) => (
-                                                <GridItemBase 
-                                                    provided={provided}
-                                                    innerRef={provided.innerRef}
-                                                    key={`grid-item-${r}${c}`}
-                                                    position={{ x: r, y: c }}
-                                                    index={`${r}${c}`} />
-                                            )}
-                                        </Droppable>
-                                    ))
-                                }
-                                </tr>
-                            ))
-                        }
-                        </tbody>
-                    </DragDropContext>
-                </table>
-            </div>
+        <div className="flex justify-center align-center py-1 bg-teal-200">
+            <table className="mx-auto bg-white border-collapse">
+                <DragDropContext onDragEnd={handleDrop}>
+                    <tbody>
+                    {
+                        grid.map((row, r) => (
+                            <tr key={`grid-row-${r}`}>
+                            {
+                                row.map((col, c) => (
+                                    <Droppable key={`drop-${r}${c}`} droppableId={`${r}-${c}`} index={Number(`${r}${c}`)}>
+                                        {(provided) => (
+                                            <GridItemBase 
+                                                provided={provided}
+                                                innerRef={provided.innerRef}
+                                                key={`grid-item-${r}${c}`}
+                                                position={{ x: r, y: c }}
+                                                index={`${r}${c}`} />
+                                        )}
+                                    </Droppable>
+                                ))
+                            }
+                            </tr>
+                        ))
+                    }
+                    </tbody>
+                </DragDropContext>
+            </table>
         </div>
     );
 };

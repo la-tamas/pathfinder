@@ -1,29 +1,22 @@
 import React, { forwardRef } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { GrPowerReset } from 'react-icons/gr';
-import { resolveWithAlgo, createGrid } from '../../features/grid/gridSlice';
+import { resolveWithAlgo } from '../../features/grid/gridSlice';
 import { algorithmNames } from '../../algorithms';
 
 const algos = Object.entries(algorithmNames);
 
 const NavbarWrapper = forwardRef((props, ref) => {
-    const { dimensions } = props;
+    const { onReset } = props;
     const dispatch = useDispatch();
 
     const handleClick = (e, algo) => {
-        console.log(algo);
         dispatch(resolveWithAlgo(algo));
     }
 
     const handleReset = () => {
-        const { width, height } = dimensions;
-        const difference = ref.current?.offsetHeight;
-        if (height > 0) {
-            dispatch(createGrid({
-                rows: Math.floor((height - (difference === undefined ? 0 : difference)) / 25),
-                cols: Math.floor(width / 25)
-            }));
-        }
+        onReset();
     }
 
     return (
@@ -49,5 +42,9 @@ const NavbarWrapper = forwardRef((props, ref) => {
         </div>
     )
 });
+
+NavbarWrapper.propTypes = {
+    onReset: PropTypes.func,
+};
 
 export default NavbarWrapper;
