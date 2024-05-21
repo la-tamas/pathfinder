@@ -1,13 +1,13 @@
+import { GridItemType, GridType, Position } from '../context/GridContext';
 import isWall from './common/isWall';
-
-var Heap = require('heap');
+import Heap from 'heap'
 
 export const AStar = {
-    _init: function(grid) {
+    _init: function(grid: GridType) {
         for(var x = 0; x < grid.length; x++) {
             for(var y = 0; y < grid[x].length; y++) {
                 grid[x][y] = Object.assign({}, {
-                    pos: {
+                    position: {
                         x: x,
                         y: y,
                     },
@@ -15,6 +15,7 @@ export const AStar = {
                     g: undefined,
                     h: undefined,
                     cost: grid[x][y].cost,
+                    value: grid[x][y].value,
                     visited: false,
                     closed: false,
                     parent: null,
@@ -23,22 +24,21 @@ export const AStar = {
         }
     },
     heap: function() {
-        return new Heap((node1, node2) => node1.f - node2.f);
+        return new Heap<GridItemType>((node1, node2) => node1.f - node2.f);
     },
-    search: (grid, start, end) => {
-        AStar._init(grid)
+    search: (grid: GridType, start: Position, end: Position) => {
         const heuristic = AStar.manhattan;
 
         var openHeap = AStar.heap();
 
-        openHeap.push(start);
+        openHeap.push(grid[start.x][start.y]);
 
         while(openHeap.size() > 0) {
             var currentNode = openHeap.pop();
 
-            if(currentNode.pos.x === end.pos.x && currentNode.pos.y === end.pos.y) {
+            if(currentNode.position.x === end.x && currentNode.position.y === end.y) {
                 var curr = currentNode;
-                var ret = [];
+                var ret: GridItemType[] = [];
                 while(curr.parent) {
                     ret.push(curr);
                     curr = curr.parent;
@@ -66,7 +66,7 @@ export const AStar = {
                 if(!beenVisited || gScore < neighbor.g) {
                     neighbor.visited = true;
                     neighbor.parent = currentNode;
-                    neighbor.h = neighbor.h || heuristic(neighbor.pos, end.pos);
+                    neighbor.h = neighbor.h || heuristic(neighbor.position, end);
                     neighbor.g = gScore;
                     neighbor.f = neighbor.g + neighbor.h;
 
@@ -85,18 +85,15 @@ export const AStar = {
             grid: grid
         };
     },
-    searchWithPromise: (grid, start, end, timeout) => new Promise(async (resolve) => {
-        
-    }),
-    manhattan: (pos0, pos1) => {
+    manhattan: (pos0: Position, pos1: Position) => {
         var d1 = Math.abs(pos1.x - pos0.x);
         var d2 = Math.abs(pos1.y - pos0.y);
         return d1 + d2;
     },
-    neighbors: function(grid, node) {
-        var ret = [];
-        var x = node.pos.x;
-        var y = node.pos.y;
+    neighbors: function(grid: GridType, node: GridItemType) {
+        var ret: GridItemType[] = [];
+        var x = node.position.x;
+        var y = node.position.y;
 
         if(grid[x-1] && grid[x-1][y]) {
             ret.push(grid[x-1][y]);

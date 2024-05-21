@@ -1,20 +1,19 @@
-import * as React from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 
 export default function useDimensions() {
-    const [windowSize, setWindowSize] = React.useState({
+    const [windowSize, setWindowSize] = useState({
         width: 0,
         height: 0,
     });
 
-    const handleResize = React.useCallback(() => {
+    const handleResize = useCallback(() => {
         setWindowSize({
             width: window.innerWidth,
             height: window.innerHeight,
         })
     }, []);
 
-    React.useEffect(() => {
-
+    useEffect(() => {
         window.addEventListener('resize', handleResize);
 
         handleResize();
@@ -22,5 +21,5 @@ export default function useDimensions() {
         return () => window.removeEventListener('resize', handleResize);
     }, [handleResize]);
 
-    return React.useMemo(() => windowSize, [windowSize]);
+    return useMemo(() => windowSize, [windowSize]);
 }

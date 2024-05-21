@@ -1,26 +1,25 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import GridItemBase from './grid-item/grid-item-base';
-import { setEndPoint, setStartPoint } from '../../features/grid/gridSlice';
+import { FunctionComponent } from 'react';
+import { DragDropContext, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
+import useGrid from '../../hooks/useGrid';
+import GridItemBase from './gridItem/gridItem.base';
+import useGridActions from '../../hooks/useGridActions';
 
-const GridWrapper = (props) => {
-    const dispatch = useDispatch();
-    const grid = useSelector((state) => state.grid.grid);
+const GridWrapper: FunctionComponent = () => {
+    const grid = useGrid((grid) => grid)
+    const { setStartPoint, setEndPoint} = useGridActions()
 
-    const handleDrop = (result) => {
+    const handleDrop: OnDragEndResponder = (result) => {
         let [x, y] = String(result.destination.droppableId).split('-');
         if (String(result.draggableId).indexOf('start') !== -1) {
-            dispatch(setStartPoint({
+            setStartPoint({
                 x: Number(x),
                 y: Number(y)
-            }));
+            });
         } else {
-            console.log('ep', x, y);
-            dispatch(setEndPoint({
+            setEndPoint({
                 x: Number(x),
                 y: Number(y)
-            }));
+            });
         }
     };
 
@@ -30,18 +29,18 @@ const GridWrapper = (props) => {
                 <DragDropContext onDragEnd={handleDrop}>
                     <tbody>
                     {
-                        grid.map((row, r) => (
+                        grid?.map((row, r) => (
                             <tr key={`grid-row-${r}`}>
                             {
-                                row.map((col, c) => (
-                                    <Droppable key={`drop-${r}${c}`} droppableId={`${r}-${c}`} index={Number(`${r}${c}`)}>
+                                row.map((_, c) => (
+                                    <Droppable key={`drop-${r}${c}`} droppableId={`${r}-${c}`}>
                                         {(provided) => (
                                             <GridItemBase 
-                                                provided={provided}
-                                                innerRef={provided.innerRef}
+                                                {...provided}
                                                 key={`grid-item-${r}${c}`}
                                                 position={{ x: r, y: c }}
-                                                index={`${r}${c}`} />
+                                                index={`${r}${c}`}
+                                            />
                                         )}
                                     </Droppable>
                                 ))
@@ -54,9 +53,6 @@ const GridWrapper = (props) => {
             </table>
         </div>
     );
-};
-
-GridWrapper.propTypes = {
 };
 
 export default GridWrapper;

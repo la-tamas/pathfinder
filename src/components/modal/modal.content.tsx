@@ -1,7 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { FunctionComponent } from 'react'
 
-const ModalContent = ({ content }) => {
+type ModalContentProps = {
+    content: string[]
+}
+
+const ModalContent: FunctionComponent<ModalContentProps> = ({ content }) => {
 
     return (
         <div className="p-6 space-y-6">
@@ -13,11 +16,7 @@ const ModalContent = ({ content }) => {
                 ))
             }
         </div> 
-    );
-};
-
-ModalContent.propTypes = {
-    content: PropTypes.arrayOf(PropTypes.string),
-};
+    )
+}
 
 export default ModalContent;

@@ -1,20 +1,23 @@
-import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { GrPowerReset } from 'react-icons/gr';
-import { BiHelpCircle } from 'react-icons/bi';
-import { resolveWithAlgo } from '../../features/grid/gridSlice';
-import { algorithmNames } from '../../algorithms';
-import { toggleModal } from '../../features/modal/modalSlice';
+import { forwardRef, MouseEvent as ReactMouseEvent } from 'react'
+import { GrPowerReset } from 'react-icons/gr'
+import { BiHelpCircle } from 'react-icons/bi'
+import { algorithmNames } from '../../algorithms'
+import useGridActions from '../../hooks/useGridActions';
+import { AlgorithmTypes } from '../../context/GridContext';
 
 const algos = Object.entries(algorithmNames);
 
-const NavbarWrapper = forwardRef((props, ref) => {
-    const { onReset } = props;
-    const dispatch = useDispatch();
+type NavbarWrapperProps = {
+    onReset: () => void
+}
 
-    const handleClick = (e, algo) => {
-        dispatch(resolveWithAlgo(algo));
+const NavbarWrapper = forwardRef<HTMLDivElement, NavbarWrapperProps>((props, ref) => {
+    const { onReset } = props
+    const { resolve } = useGridActions()
+
+    const handleClick = (e: ReactMouseEvent<HTMLButtonElement, MouseEvent>, algorithm: AlgorithmTypes) => {
+        e.preventDefault()
+        resolve(algorithm)
     }
 
     const handleReset = () => {
@@ -22,7 +25,7 @@ const NavbarWrapper = forwardRef((props, ref) => {
     }
 
     const handleHelp = () => {
-        dispatch(toggleModal());
+        // dispatch(toggleModal());
     }
 
     return (
@@ -30,30 +33,29 @@ const NavbarWrapper = forwardRef((props, ref) => {
             <div className="flex flex-row py-2 px-3 max-h-full overflow-y-auto">
                 <button 
                     className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded"
-                    onClick={handleReset}>
+                    onClick={handleReset}
+                >
                     <GrPowerReset size={22} color="white" style={{ color: 'white' }} />
                 </button>
                 {
                     algos.map((item, index) => (
                         <button key={`algo-${index}`}
                             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded overflow-y-hidden" 
-                            onClick={(e) => handleClick(e, item[0])}>
+                            onClick={(e) => handleClick(e, item[0] as AlgorithmTypes)}
+                        >
                             {item[1]}
                         </button>
                     ))
                 }
                 <button 
                     className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded"
-                    onClick={handleHelp}>
+                    onClick={handleHelp}
+                >
                     <BiHelpCircle size={22} color="white" style={{ color: 'white' }} />
                 </button>
             </div>
         </div>
     )
 });
-
-NavbarWrapper.propTypes = {
-    onReset: PropTypes.func,
-};
 
 export default NavbarWrapper;

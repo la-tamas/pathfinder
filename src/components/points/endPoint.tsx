@@ -1,9 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Draggable } from 'react-beautiful-dnd';
-import { BsStopCircle } from 'react-icons/bs';
+import { FunctionComponent } from 'react'
+import { Draggable } from 'react-beautiful-dnd'
+import { BsStopCircle } from 'react-icons/bs'
 
-const EndPoint = (props) => {
+type EndPointProps = {
+    index: string
+}
+
+const EndPoint: FunctionComponent<EndPointProps> = (props) => {
     const { index } = props;
 
     return (
@@ -19,11 +22,7 @@ const EndPoint = (props) => {
                 </div>
             )}
         </Draggable>
-    );
-};
+    )
+}
 
-EndPoint.propTypes = {
-    index: PropTypes.string,
-};
-
-export default EndPoint;
+export default EndPoint
