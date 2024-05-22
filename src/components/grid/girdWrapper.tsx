@@ -19,9 +19,9 @@ const GridWrapper: FunctionComponent = () => {
             setEndPoint({
                 x: Number(x),
                 y: Number(y)
-            });
+            })
         }
-    };
+    }
 
     return (
         <div className="flex justify-center align-center py-1 bg-teal-200">
@@ -52,7 +52,7 @@ const GridWrapper: FunctionComponent = () => {
                 </DragDropContext>
             </table>
         </div>
-    );
-};
+    )
+}
 
 export default memo(GridWrapper)
