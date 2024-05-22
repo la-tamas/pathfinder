@@ -30,11 +30,11 @@ export class AStar extends AbstractResolver {
 
                 ret.reverse()
                 for (let i = 0; i < ret.length; i++) {
-                    AStar.syncSolution(ret.slice(0, i), solve)
+                    await AStar.syncSolution(ret.slice(0, i), solve)
                 }
 
                 return { 
-                    result: ret.reverse(), 
+                    result: ret,
                     grid: grid
                 };
             }

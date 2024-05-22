@@ -22,9 +22,9 @@ export class Dijkstra extends AbstractResolver {
 
                     ret.reverse()
                     for (let i = 0; i < ret.length; i++) {
-                        Dijkstra.syncSolution(ret.slice(0, i), solve)
+                        await Dijkstra.syncSolution(ret.slice(0, i), solve)
                     }
-                    
+
                     return { 
                         result: ret,
                         grid: grid
