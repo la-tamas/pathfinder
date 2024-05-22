@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, FunctionComponent } from 'react'
+import { useEffect, useRef, useCallback, FunctionComponent, memo } from 'react'
 import Navbar from '../navbar/navbar.wrapper'
 import Grid from '../grid/girdWrapper'
 import ModalWrapper from '../modal/modal.wrapper'
@@ -35,4 +35,4 @@ const MainLayout: FunctionComponent = () => {
   )
 }
 
-export default MainLayout
+export default memo(MainLayout)

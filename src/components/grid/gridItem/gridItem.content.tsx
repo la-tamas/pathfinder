@@ -1,4 +1,4 @@
-import { MouseEvent, MouseEventHandler, ReactNode, forwardRef } from 'react'
+import { MouseEventHandler, ReactNode, forwardRef, memo } from 'react'
 
 type GridItemContentProps = {
     children: ReactNode | ReactNode[] | JSX.Element
@@ -21,4 +21,4 @@ const GridItemContent = forwardRef<HTMLDivElement, GridItemContentProps>((props,
     )
 })
 
-export default GridItemContent
+export default memo(GridItemContent)

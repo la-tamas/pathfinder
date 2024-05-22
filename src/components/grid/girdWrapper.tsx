@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, memo } from 'react';
 import { DragDropContext, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
 import useGrid from '../../hooks/useGrid';
 import GridItemBase from './gridItem/gridItem.base';
@@ -55,4 +55,4 @@ const GridWrapper: FunctionComponent = () => {
     );
 };
 
-export default GridWrapper;
+export default memo(GridWrapper)

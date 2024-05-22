@@ -1,4 +1,4 @@
-import { useMemo, useCallback, ReactNode, forwardRef, MouseEventHandler } from 'react'
+import { useMemo, useCallback, ReactNode, forwardRef, memo, MouseEventHandler } from 'react'
 import { DroppableProvided } from 'react-beautiful-dnd'
 import StartPoint from '../../points/startPoint'
 import EndPoint from '../../points/endPoint'
@@ -78,4 +78,4 @@ const GridItemBase = forwardRef<HTMLTableCellElement, GridItemBaseProps>((props,
     )
 })
 
-export default GridItemBase;
+export default memo(GridItemBase);
