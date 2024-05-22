@@ -1,40 +1,24 @@
 import { GridItemType, GridType, Position } from '../context/GridContext';
+import { AbstractResolver } from './common/Abstract';
 import isWall from './common/isWall';
-import Heap from 'heap'
 
-export const AStar = {
-    _init: function(grid: GridType) {
-        for(var x = 0; x < grid.length; x++) {
-            for(var y = 0; y < grid[x].length; y++) {
-                grid[x][y] = Object.assign({}, {
-                    position: {
-                        x: x,
-                        y: y,
-                    },
-                    f: 0,
-                    g: undefined,
-                    h: undefined,
-                    cost: grid[x][y].cost,
-                    value: grid[x][y].value,
-                    visited: false,
-                    closed: false,
-                    parent: null,
-                });
-            }  
-        }
-    },
-    heap: function() {
-        return new Heap<GridItemType>((node1, node2) => node1.f - node2.f);
-    },
-    search: (grid: GridType, start: Position, end: Position) => {
+export class AStar extends AbstractResolver {
+    private static manhattan(pos0: Position, pos1: Position) {
+        var d1 = Math.abs(pos1.x - pos0.x);
+        var d2 = Math.abs(pos1.y - pos0.y);
+        return d1 + d2;
+    }
+
+    public static async search(grid: GridType, start: Position, end: Position, callback: (grid: GridType) => void, solve: (solution: GridItemType[]) => void) {
+        AStar.init(grid, callback, solve)
         const heuristic = AStar.manhattan;
 
-        var openHeap = AStar.heap();
+        var heap = AStar.heap();
 
-        openHeap.push(grid[start.x][start.y]);
+        heap.push(grid[start.x][start.y]);
 
-        while(openHeap.size() > 0) {
-            var currentNode = openHeap.pop();
+        while(heap.size() > 0) {
+            var currentNode = heap.pop();
 
             if(currentNode.position.x === end.x && currentNode.position.y === end.y) {
                 var curr = currentNode;
@@ -43,6 +27,12 @@ export const AStar = {
                     ret.push(curr);
                     curr = curr.parent;
                 }
+
+                ret.reverse()
+                for (let i = 0; i < ret.length; i++) {
+                    AStar.syncSolution(ret.slice(0, i), solve)
+                }
+
                 return { 
                     result: ret.reverse(), 
                     grid: grid
@@ -71,11 +61,13 @@ export const AStar = {
                     neighbor.f = neighbor.g + neighbor.h;
 
                     if (!beenVisited) {
-                        openHeap.push(neighbor);
+                        heap.push(neighbor);
                     }
                     else {
-                        openHeap.updateItem(neighbor)
+                        heap.updateItem(neighbor)
                     }
+
+                    await AStar.sync(grid, callback)
                 }
             }
         }
@@ -84,32 +76,5 @@ export const AStar = {
             result: [],
             grid: grid
         };
-    },
-    manhattan: (pos0: Position, pos1: Position) => {
-        var d1 = Math.abs(pos1.x - pos0.x);
-        var d2 = Math.abs(pos1.y - pos0.y);
-        return d1 + d2;
-    },
-    neighbors: function(grid: GridType, node: GridItemType) {
-        var ret: GridItemType[] = [];
-        var x = node.position.x;
-        var y = node.position.y;
-
-        if(grid[x-1] && grid[x-1][y]) {
-            ret.push(grid[x-1][y]);
-        }
-
-        if(grid[x+1] && grid[x+1][y]) {
-            ret.push(grid[x+1][y]);
-        }
-
-        if(grid[x] && grid[x][y-1]) {
-            ret.push(grid[x][y-1]);
-        }
-
-        if(grid[x] && grid[x][y+1]) {
-            ret.push(grid[x][y+1]);
-        }
-        return ret;
     }
 }

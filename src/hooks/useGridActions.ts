@@ -66,7 +66,7 @@ const useGridActions = () => {
         setContext({
             grid,
         })
-    }, [setContext])
+    }, [context, setContext])
 
     const setGridWallConstant = useCallback((position: Position) => {
         const { x, y } = position
@@ -78,7 +78,7 @@ const useGridActions = () => {
         setContext({
             grid,
         })
-    }, [setContext])
+    }, [context, setContext])
 
     const setStartPoint = useCallback((position: Position) => {
         const { x, y } = position
@@ -102,7 +102,7 @@ const useGridActions = () => {
             startingPoint,
             grid,
         })
-    }, [setContext])
+    }, [context, setContext])
 
     const setEndPoint = useCallback((position: Position) => {
         const { x, y } = position;
@@ -126,7 +126,7 @@ const useGridActions = () => {
             endPoint,
             grid,
         })
-    }, [setContext])
+    }, [context, setContext])
 
     const setGrid = useCallback((grid: GridType) => {
         setContext({
@@ -134,9 +134,16 @@ const useGridActions = () => {
         })
     }, [setContext])
 
-    const resolve = useCallback((algorithm: AlgorithmTypes) => {
+    const setSolution = useCallback((solution: GridItemType[]) => {
+        setContext({
+            solution
+        })
+    }, [setContext])
+
+    const resolve = useCallback(async (algorithm: AlgorithmTypes) => {
         const { grid: initialGrid, startingPoint, endPoint } = context
-        const { result, grid } = algorithms[algorithm].search(initialGrid, startingPoint, endPoint, setGrid)
+        const copy = JSON.parse(JSON.stringify(initialGrid))
+        const { result, grid } = await algorithms[algorithm].search(copy, startingPoint, endPoint, setGrid, setSolution)
 
         setContext({
             solution: result,

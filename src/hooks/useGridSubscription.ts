@@ -11,7 +11,7 @@ const useGridSubscription = () => {
 
     const set = useCallback((value: Partial<GridContextType>) => {
         store.current = deepmerge(store.current, value, {
-            clone: true,
+            clone: false,
             arrayMerge: (_, source) => source
         })
 
