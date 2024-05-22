@@ -2,10 +2,11 @@
   "compilerOptions": {    
     "lib": ["dom", "dom.iterable", "esnext"],    
     "target": "ESNext",   
-    "module": "CommonJS", 
+    "module": "ESNext", 
     "types": ["vite/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler"
   },
  }
