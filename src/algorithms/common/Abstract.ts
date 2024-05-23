@@ -2,7 +2,7 @@ import Heap from 'heap';
 import type { GridItemType, GridType, Position } from '../../context/GridContext'
 import isWall from './isWall';
 
-type ReturnType = {
+export type ReturnType = {
     result: GridItemType[]
     grid: GridType
 }

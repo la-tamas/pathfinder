@@ -29,10 +29,11 @@ const NavbarWrapper = forwardRef<HTMLDivElement, NavbarWrapperProps>((props, ref
     }
 
     return (
-        <div ref={ref} className="min-w-full h-14 min-h-14 bg-teal-800">
+        <div ref={ref} className="min-w-full h-14 min-h-20 bg-teal-800">
             <div className="flex flex-row py-2 px-3 max-h-full overflow-y-auto">
+                <div className="absolute inline-flex min-h-12">
                 <button 
-                    className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded"
+                    className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded min-w-8"
                     onClick={handleReset}
                 >
                     <GrPowerReset size={22} color="white" style={{ color: 'white' }} />
@@ -40,7 +41,7 @@ const NavbarWrapper = forwardRef<HTMLDivElement, NavbarWrapperProps>((props, ref
                 {
                     algos.map((item, index) => (
                         <button key={`algo-${index}`}
-                            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 rounded overflow-y-hidden" 
+                            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 mr-1 min-w-8 rounded text-ellipsis" 
                             onClick={(e) => handleClick(e, item[0] as AlgorithmTypes)}
                         >
                             {item[1]}
@@ -53,6 +54,7 @@ const NavbarWrapper = forwardRef<HTMLDivElement, NavbarWrapperProps>((props, ref
                 >
                     <BiHelpCircle size={22} color="white" style={{ color: 'white' }} />
                 </button>
+                </div>
             </div>
         </div>
     )
