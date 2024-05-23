@@ -1,5 +1,6 @@
 import Heap from 'heap';
 import type { GridItemType, GridType, Position } from '../../context/GridContext'
+import isWall from './isWall';
 
 type ReturnType = {
     result: GridItemType[]
@@ -48,6 +49,10 @@ export class AbstractResolver extends IAbstractResolver {
         const x = node.position.x
         const y = node.position.y
 
+        if (isWall(node)) {
+            return []
+        }
+
         if(grid[x-1] && grid[x-1][y] && !grid[x-1][y].visited && !grid[x-1][y].closed) {
             ret.push(grid[x-1][y])
         }
@@ -56,7 +61,7 @@ export class AbstractResolver extends IAbstractResolver {
             ret.push(grid[x+1][y])
         }
 
-        if(grid[x] && grid[x][y-1] && !grid[1][y-1].visited && !grid[1][y-1].closed) {
+        if(grid[x] && grid[x][y-1] && !grid[x][y-1].visited && !grid[x][y-1].closed) {
             ret.push(grid[x][y-1])
         }
 
