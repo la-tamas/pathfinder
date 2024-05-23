@@ -41,7 +41,7 @@ export class AStar extends AbstractResolver {
 
             currentNode.closed = true;
 
-            var neighbors = AStar.neighbors(grid, currentNode);
+            var neighbors = AStar.neighbors(grid, currentNode, true);
 
             for(var i = 0, il = neighbors.length; i < il; i++) {
                 var neighbor = neighbors[i];

@@ -44,12 +44,12 @@ export class AbstractResolver extends IAbstractResolver {
         return new Heap<GridItemType>((node1, node2) => node1.f - node2.f)
     }
 
-    protected static neighbors(grid: GridType, node: GridItemType) {
+    protected static neighbors(grid: GridType, node: GridItemType, skipWalls: boolean = false) {
         const ret: GridItemType[] = []
         const x = node.position.x
         const y = node.position.y
 
-        if (isWall(node)) {
+        if (skipWalls && isWall(node)) {
             return []
         }
 
@@ -72,15 +72,15 @@ export class AbstractResolver extends IAbstractResolver {
         return ret
     }
 
-    protected static async sync(grid: GridType, callback: (grid: GridType) => void) {
+    protected static async sync(grid: GridType, callback: (grid: GridType) => void, speed = 1) {
         return new Promise<void>(resolve => {
-            setTimeout(() => resolve(callback(grid)), 1)
+            setTimeout(() => resolve(callback(grid)), speed)
         })
     }
 
-    protected static async syncSolution(solution: GridItemType[], solve: (solution: GridItemType[]) => void) {
+    protected static async syncSolution(solution: GridItemType[], solve: (solution: GridItemType[]) => void, speed = 1) {
         return new Promise<void>(resolve => {
-            setTimeout(() => resolve(solve(solution)), 1)
+            setTimeout(() => resolve(solve(solution)), speed)
         })
     }
 }

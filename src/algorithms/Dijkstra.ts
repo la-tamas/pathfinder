@@ -33,7 +33,7 @@ export class Dijkstra extends AbstractResolver {
 
                 currentNode.closed = true;
 
-                var neighbors = Dijkstra.neighbors(grid, currentNode);
+                var neighbors = Dijkstra.neighbors(grid, currentNode, true);
 
                 for(let i = 0, il = neighbors.length; i < il; i++) {
                     var neighbor = neighbors[i];
