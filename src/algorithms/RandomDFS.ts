@@ -31,13 +31,18 @@ export class RandomDFS extends AbstractResolver {
                 neighbors[index].cost = 255
             }
 
+            // for (let i = 0; i < neighbors.length; i++) {
+            //     await RandomDFS.sync(grid, callback)
+            //     await RandomDFS.search(grid, neighbors[i].position, end, callback, solve)
+            // }
+
             await Promise.all(neighbors.map(async neighbor => {
                 const nextPosition = neighbor.position
                 if (neighbor.closed) {
                     return { grid, result: [] }
                 }
 
-                await RandomDFS.sync(grid, callback)
+                
                 return await RandomDFS.search(grid, nextPosition, end, callback, solve)
             }))
 

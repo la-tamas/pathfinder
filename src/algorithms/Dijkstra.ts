@@ -10,11 +10,11 @@ export class Dijkstra extends AbstractResolver {
         heap.push(grid[start.x][start.y]);
 
         while(heap.size() > 0) {
-                var currentNode = heap.pop();
+                const currentNode = heap.pop();
 
                 if(currentNode.position.x === end.x && currentNode.position.y === end.y) {
-                    var curr = currentNode;
-                    var ret: GridItemType[] = [];
+                    let curr = currentNode;
+                    const ret: GridItemType[] = [];
                     while(curr.parent) {
                         ret.push(curr);
                         curr = curr.parent;
@@ -33,17 +33,17 @@ export class Dijkstra extends AbstractResolver {
 
                 currentNode.closed = true;
 
-                var neighbors = Dijkstra.neighbors(grid, currentNode, true);
+                const neighbors = Dijkstra.neighbors(grid, currentNode, true);
 
                 for(let i = 0, il = neighbors.length; i < il; i++) {
-                    var neighbor = neighbors[i];
+                    const neighbor = neighbors[i];
 
                     if(neighbor.closed || isWall(neighbor)) {
                         continue;
                     }
 
-                    var gScore = currentNode.g + neighbor.cost;
-                    var beenVisited = neighbor.visited;
+                    const gScore = currentNode.g + neighbor.cost;
+                    const beenVisited = neighbor.visited;
 
                     if(!beenVisited || gScore < neighbor.g) {
                         neighbor.visited = true;
