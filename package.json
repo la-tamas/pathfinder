@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
+    "@types/node": "20.12.12",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
