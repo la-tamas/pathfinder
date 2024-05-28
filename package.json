@@ -34,7 +34,7 @@
     "react-dom": "*"
   },
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "npx eslint",
