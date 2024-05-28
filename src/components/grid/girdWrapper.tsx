@@ -9,7 +9,7 @@ const GridWrapper: FunctionComponent = () => {
     const { setStartPoint, setEndPoint} = useGridActions()
 
     const handleDrop: OnDragEndResponder = (result) => {
-        let [x, y] = String(result.destination.droppableId).split('-');
+        const [x, y] = String(result.destination.droppableId).split('-');
         if (String(result.draggableId).indexOf('start') !== -1) {
             setStartPoint({
                 x: Number(x),

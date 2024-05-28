@@ -20,8 +20,6 @@ export class DFS extends AbstractResolver {
                     curr = curr.parent;
                 }
     
-                console.log(ret);
-    
                 ret.reverse()
                 for (let i = 0; i < ret.length; i++) {
                     await DFS.syncSolution(ret.slice(0, i), solve)

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import useGridContext from './useGridContext'
-import { AlgorithmTypes, GridItemType, GridType, Position } from '../context/GridContext'
-import { algorithms } from '../algorithms'
+import { AlgorithmTypes, GeneratorTypes, GridItemType, GridType, Position } from '../context/GridContext'
+import { algorithms, generators } from '../algorithms'
 
 const useGridActions = () => {
     const [context, setContext] = useGridContext((context) => context)
@@ -140,15 +140,26 @@ const useGridActions = () => {
         })
     }, [setContext])
 
-    const resolve = useCallback(async (algorithm: AlgorithmTypes) => {
+    const resolve = useCallback(async (algorithm: AlgorithmTypes | GeneratorTypes) => {
         const { grid: initialGrid, startingPoint, endPoint } = context
         const copy = JSON.parse(JSON.stringify(initialGrid))
-        const { result, grid } = await algorithms[algorithm].search(copy, startingPoint, endPoint, setGrid, setSolution)
+        if (algorithm in algorithms) {
+            const { result, grid } = await algorithms[algorithm].search(copy, startingPoint, endPoint, setGrid, setSolution)
 
-        setContext({
-            solution: result,
-            grid
-        })
+            setContext({
+                solution: result,
+                grid
+            })
+        }
+
+        if (algorithm in generators) {
+            const { result, grid } = await generators[algorithm].search(copy, startingPoint, endPoint, setGrid, setSolution)
+
+            setContext({
+                solution: result,
+                grid
+            })
+        }
     }, [context, setContext, setGrid])
 
     return {

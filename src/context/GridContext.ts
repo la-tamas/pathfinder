@@ -1,7 +1,9 @@
 import { createContext } from 'react'
-import { algorithms } from '../algorithms'
+import { algorithms, generators } from '../algorithms'
 
 export type AlgorithmTypes = keyof typeof algorithms
+
+export type GeneratorTypes = keyof typeof generators
 
 export type Position = {
     x: number
