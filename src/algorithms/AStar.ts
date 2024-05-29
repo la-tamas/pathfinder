@@ -46,7 +46,7 @@ export class AStar extends AbstractResolver {
             for(let i = 0, il = neighbors.length; i < il; i++) {
                 const neighbor = neighbors[i];
 
-                if(neighbor.closed || isWall(neighbor)) {
+                if(neighbor.closed || AStar.isWall(neighbor)) {
                     continue;
                 }
 

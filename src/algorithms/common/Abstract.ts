@@ -2,6 +2,8 @@ import Heap from 'heap';
 import type { GridItemType, GridType, Position } from '../../context/GridContext'
 import isWall from './isWall';
 
+export type Direction = 'horizontal' | 'vertical' | 'all'
+
 export type ReturnType = {
     result: GridItemType[]
     grid: GridType
@@ -13,6 +15,7 @@ abstract class IAbstractResolver {
     neighbors: (grid: GridType, node: GridItemType) => GridItemType[]
     search: (grid: GridType, start: Position, end: Position, callback: (grid: GridType) => void, solve: (solution: GridItemType[]) => void) => Promise<ReturnType>
     sync: (grid: GridType, callback: (grid: GridType) => void) => Promise<void>
+    isWall: (node: GridItemType) => boolean
 }
 
 export class AbstractResolver extends IAbstractResolver {
@@ -40,33 +43,43 @@ export class AbstractResolver extends IAbstractResolver {
         return callback(grid)
     }
 
+    protected static isWall = (node: GridItemType) => isWall(node)
+
     protected static heap() {
         return new Heap<GridItemType>((node1, node2) => node1.f - node2.f)
     }
 
-    protected static neighbors(grid: GridType, node: GridItemType, skipWalls: boolean = false) {
+    protected static neighbors(grid: GridType, node: GridItemType, skipWalls: boolean = false, direction: Direction = 'all') {
         const ret: GridItemType[] = []
         const x = node.position.x
         const y = node.position.y
 
-        if (skipWalls && isWall(node)) {
+        if (skipWalls && this.isWall(node)) {
             return []
         }
 
-        if(grid[x-1] && grid[x-1][y] && !grid[x-1][y].visited && !grid[x-1][y].closed) {
-            ret.push(grid[x-1][y])
+        if (direction === 'all' || direction === 'horizontal') {
+            if(grid[x-1] && grid[x-1][y] && !grid[x-1][y].visited && !grid[x-1][y].closed) {
+                ret.push(grid[x-1][y])
+            }
         }
 
-        if(grid[x+1] && grid[x+1][y] && !grid[x+1][y].visited && !grid[x+1][y].closed) {
-            ret.push(grid[x+1][y])
+        if (direction === 'all' || direction === 'horizontal') {
+            if(grid[x+1] && grid[x+1][y] && !grid[x+1][y].visited && !grid[x+1][y].closed) {
+                ret.push(grid[x+1][y])
+            }
         }
 
-        if(grid[x] && grid[x][y-1] && !grid[x][y-1].visited && !grid[x][y-1].closed) {
-            ret.push(grid[x][y-1])
+        if (direction === 'all' || direction === 'vertical') {
+            if(grid[x] && grid[x][y-1] && !grid[x][y-1].visited && !grid[x][y-1].closed) {
+                ret.push(grid[x][y-1])
+            }
         }
 
-        if(grid[x] && grid[x][y+1] && !grid[x][y+1].visited && !grid[x][y+1].closed) {
-            ret.push(grid[x][y+1])
+        if (direction === 'all' || direction === 'vertical') {
+            if(grid[x] && grid[x][y+1] && !grid[x][y+1].visited && !grid[x][y+1].closed) {
+                ret.push(grid[x][y+1])
+            }
         }
 
         return ret

@@ -3,7 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],    
     "target": "ESNext",   
     "module": "ESNext", 
-    "types": ["vite/client"],
+    "types": ["vite/client", "*.d.ts"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
