@@ -3,6 +3,7 @@ import { AStar } from './AStar';
 import { DFS } from './DFS';
 import { Dijkstra } from './Dijkstra';
 import { RandomDFS } from './RandomDFS';
+import { Kruskal } from './Kruskal';
 
 export const algorithms = {
     astar: AStar,
@@ -19,8 +20,10 @@ export const algorithmNames: Record<AlgorithmTypes, string> = {
 
 export const generators = {
     rdfs: RandomDFS,
+    kruskal: Kruskal
 }
 
 export const generatorNames: Record<GeneratorTypes, string> = {
     rdfs: 'Random DFS',
+    kruskal: 'Random Kruskal',
 } as const;

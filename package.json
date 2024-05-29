@@ -7,6 +7,7 @@
     "@types/heap": "^0.2.34",
     "@vitejs/plugin-react": "^4.2.1",
     "deepmerge": "^4.3.1",
+    "disjoint-set": "^1.1.9",
     "heap": "^0.2.7",
     "react-beautiful-dnd": "^13.1.1",
     "react-icons": "^5.2.1",
