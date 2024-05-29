@@ -8,5 +8,5 @@ interface DisjointSet<T = any> {
 }
 
 declare module 'disjoint-set' {
-    function disjointSet<T>(): DisjointSet<T>
+    export default function disjointSet<T>(): DisjointSet<T>
 }
